@@ -1,0 +1,11 @@
+{
+  "tfidf_n_features": 10000,
+  "ohe_n_features": 28,
+  "numeric_features": [
+    "telecommuting",
+    "has_company_logo",
+    "has_questions"
+  ],
+  "final_feature_count": 10031,
+  "scale_pos_weight": 19.64069264069264
+}
