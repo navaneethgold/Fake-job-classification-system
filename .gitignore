@@ -4,18 +4,12 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
 data/
 env_fjcs
 myenv/
 var/
 wheels/
 *.egg-info/
-.installed.cfg
 *.egg
 
 # Virtual Environment
@@ -28,9 +22,6 @@ ENV/
 *.swp
 *.swo
 
-# Model files
-*.pkl
-*.joblib
 
 # Logs
 *.log
