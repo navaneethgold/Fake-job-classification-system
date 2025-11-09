@@ -1,72 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fake Job Detector</title>
+  <link rel="icon" href="icon.png">
+  <!-- Font Awesome icons (free) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-pbVY+Y5Yd0b6qz8g8f6v9R3Gf2u8r6n9s7gY0q3mR6m0f5aP6tKfV1y2S9Zk2Y3c4V5Z6QxT9t0z3Y8x7g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>🕵️‍♂️ Fake Job Posting Detector</h1>
-    <p>Enter job details below to check if it’s real or fake.</p>
+  <main class="page">
+    <div class="card">
+      <header class="card-header">
+        <div class="title-left">
+          <span class="brand-icon2" aria-hidden="true"><img src="icon.png" alt="icon" style="width:4rem;"></span>
+          <div>
+            <h1 class="title">Fake Job Posting Detector</h1>
+            <p class="subtitle">Paste a job posting — our model will check whether it's likely legitimate or fraudulent.</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <small class="version">Demo • FastAPI + XGBoost</small>
+        </div>
+      </header>
 
-    <form id="jobForm">
-      <label for="text">Job Description:</label>
-      <textarea id="text" rows="6" placeholder="Paste the job description here..." required></textarea>
+      <form id="jobForm" class="card-body">
+        <label for="text" class="label">Job Description</label>
+        <textarea id="text" rows="6" placeholder="Paste the entire job description or posting here..." required></textarea>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="employment_type">Employment Type:</label>
-          <select id="employment_type">
-            <option value="Unknown">Unknown</option>
-            <option value="Full-time">Full-time</option>
-            <option value="Part-time">Part-time</option>
-            <option value="Contract">Contract</option>
-            <option value="Temporary">Temporary</option>
-            <option value="Other">Other</option>
-          </select>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="employment_type" class="label">Employment Type</label>
+            <select id="employment_type" aria-label="Employment Type">
+              <option value="Unknown">Unknown</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Contract">Contract</option>
+              <option value="Temporary">Temporary</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="required_experience" class="label">Required Experience</label>
+            <select id="required_experience" aria-label="Required Experience">
+              <option value="Unknown">Unknown</option>
+              <option value="Internship">Internship</option>
+              <option value="Entry level">Entry level</option>
+              <option value="Mid-Senior level">Mid-Senior level</option>
+              <option value="Director">Director</option>
+              <option value="Executive">Executive</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="required_education" class="label">Required Education</label>
+            <select id="required_education" aria-label="Required Education">
+              <option value="Unknown">Unknown</option>
+              <option value="High School">High School</option>
+              <option value="Bachelor's Degree">Bachelor's Degree</option>
+              <option value="Master's Degree">Master's Degree</option>
+              <option value="PhD">PhD</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="required_experience">Required Experience:</label>
-          <select id="required_experience">
-            <option value="Unknown">Unknown</option>
-            <option value="Internship">Internship</option>
-            <option value="Entry level">Entry level</option>
-            <option value="Mid-Senior level">Mid-Senior level</option>
-            <option value="Director">Director</option>
-            <option value="Executive">Executive</option>
-          </select>
+        <div class="checkbox-row">
+          <label><input type="checkbox" id="telecommuting" /> Remote / Telecommute</label>
+          <label><input type="checkbox" id="has_company_logo" /> Has Company Logo</label>
+          <label><input type="checkbox" id="has_questions" /> Has Screening Questions</label>
         </div>
 
-        <div class="form-group">
-          <label for="required_education">Required Education:</label>
-          <select id="required_education">
-            <option value="Unknown">Unknown</option>
-            <option value="High School">High School</option>
-            <option value="Bachelor's Degree">Bachelor's Degree</option>
-            <option value="Master's Degree">Master's Degree</option>
-            <option value="PhD">PhD</option>
-          </select>
+        <div class="actions">
+          <button id="submitBtn" type="submit" class="btn primary">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Check Job</span>
+          </button>
+
+          <button id="clearBtn" type="button" class="btn ghost" title="Clear form">
+            <i class="fa-solid fa-eraser"></i>
+            <span>Clear</span>
+          </button>
         </div>
-      </div>
+      </form>
 
-      <div class="form-checkboxes">
-        <label><input type="checkbox" id="telecommuting" /> Remote/Telecommute</label>
-        <label><input type="checkbox" id="has_company_logo" /> Has Company Logo</label>
-        <label><input type="checkbox" id="has_questions" /> Has Screening Questions</label>
-      </div>
+      <aside id="result" class="result hidden" aria-live="polite">
+        <div class="result-left">
+          <div id="resultIcon" class="result-icon" aria-hidden="true">
+            <!-- icon inserted via JS -->
+          </div>
+          <div class="result-text">
+            <p id="label" class="result-label">—</p>
+            <p id="probability" class="result-prob">Probability (Fake): —</p>
+          </div>
+        </div>
 
-      <button type="submit">Check Job</button>
-    </form>
-
-    <div id="result" class="hidden">
-      <h3>Prediction Result</h3>
-      <p id="label"></p>
-      <p id="probability"></p>
+        <div class="result-actions">
+          <button id="explainBtn" class="btn small">Explain</button>
+        </div>
+      </aside>
     </div>
-  </div>
+    <footer class="footer">
+      <small>Made by Navaneeth • Model powered by XGBoost & TF-IDF</small>
+    </footer>
+  </main>
 
   <script src="script.js"></script>
 </body>
