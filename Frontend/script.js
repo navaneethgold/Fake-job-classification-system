@@ -6,7 +6,7 @@ const resultIcon = document.getElementById("resultIcon");
 const submitBtn = document.getElementById("submitBtn");
 const clearBtn = document.getElementById("clearBtn");
 const explainBtn = document.getElementById("explainBtn");
-let lastPayload = null;  
+let lastPayload = null;
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   resultDiv.classList.add("hidden");
@@ -123,7 +123,7 @@ explainBtn.addEventListener("click", async () => {
       if (!items.length) return `<p style="color:${color};margin:0.35rem 0 1rem">No features</p>`;
       return `<ol style="padding-left:18px; margin:0.25rem 0;">
         ${items.map(item =>
-          `<li style="margin:6px 0;">
+        `<li style="margin:6px 0;">
              <span style="font-weight:600">${escapeHtml(item.feature)}</span>
              <span style="color:#6b7280"> — ${Number(item.contrib).toFixed(4)}</span>
            </li>`).join("")}
@@ -142,7 +142,7 @@ explainBtn.addEventListener("click", async () => {
         </div>
       </div>
       <div style="margin-top:10px; color:#6b7280; font-size:13px;">
-        ${ bias !== null ? `Base bias (model intercept): ${Number(bias).toFixed(4)}` : "" }
+        ${bias !== null ? `Base bias (model intercept): ${Number(bias).toFixed(4)}` : ""}
       </div>
     `;
 
